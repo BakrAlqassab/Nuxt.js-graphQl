@@ -1,28 +1,28 @@
 <template>
-  <div>
-    <div style="border: dashed; width: 100%; height: fit-content">
-      <h3 class="text-2xl">{{ character.name }}</h3>
-      <h3 class="text-2xl">{{ character.id }}</h3>
-    </div>
+  <div class="container" style="background-color: #f0ebeb; margin: 5% 10%">
+    <div>
+      <h1 class="text-4xl font-semibold text-gray-800 mb-8">
+        DoingITeasyChannel - Nuxt Series
+      </h1>
 
-    <div style="margin: 24px; width 40%;display: inline-block;">
-      <button
-        @click="characterId = characterId + 1"
-        class="bg-gray-700 p-4 border text-white"
-      >
-        Character ID increment
-      </button>
-      <!-- <Tutorial /> -->
+      <div class="flex">
+        <!-- <Tutorial /> -->
 
-      <ul>
-        <li v-for="character in characters.results" :key="character.id">
-          {{ character.name }}, {{ character.status }},
-        </li>
-      </ul>
-    </div>
+        <ul class="w-64">
+          <li v-for="character in characters.results" :key="character.id">
+            <nuxt-link
+              class="hover:font-bold hover:text-gray-900 leading-loose"
+              :to="character.id"
+            >
+              {{ character.name }}
+            </nuxt-link>
+          </li>
+        </ul>
 
-    <div style="margin: 24px width 40%; display: inline-block">
-      <img :src="character.image" :alt="character.id" />
+        <div class="flex-grow bg-white min-h-full">
+          <nuxt-child :key="$route.params.id"> </nuxt-child>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +33,12 @@ export default {
   data() {
     return {
       characterId: 1,
+    }
+  },
+
+  fetch({ redirect, route }) {
+    if (!route.params.id) {
+      redirect('/1')
     }
   },
   apollo: {
